@@ -224,9 +224,9 @@ export default function AIHost() {
 
       {/* ---------- INTRO ---------- */}
       {phase === "intro" && (
-        <div className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[var(--color-bg)] px-6 text-center">
+        <div className="fixed inset-0 z-[100] flex flex-col items-center justify-center overflow-y-auto bg-[var(--color-bg)] px-6 py-10 text-center">
           <div className="pointer-events-none absolute inset-0 bg-aurora opacity-80" />
-          <div className="relative h-64 w-64 md:h-80 md:w-80">
+          <div className="relative h-44 w-44 shrink-0 sm:h-64 sm:w-64 md:h-80 md:w-80">
             <canvas ref={canvasRef} className="absolute inset-0 h-full w-full" />
             <img src="/gen/host-avatar.png" alt="" aria-hidden="true" className="relative h-full w-full object-contain mix-blend-screen" />
           </div>
@@ -259,9 +259,9 @@ export default function AIHost() {
 
       {/* ---------- WELCOME (orbe grande hablando) ---------- */}
       {phase === "welcome" && (
-        <div className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[var(--color-bg)] px-6 text-center">
+        <div className="fixed inset-0 z-[100] flex flex-col items-center justify-center overflow-y-auto bg-[var(--color-bg)] px-6 py-10 text-center">
           <div className="pointer-events-none absolute inset-0 bg-aurora opacity-80" />
-          <div className={`relative h-72 w-72 transition-transform duration-300 md:h-96 md:w-96 ${speaking ? "scale-105" : ""}`}>
+          <div className={`relative h-52 w-52 shrink-0 transition-transform duration-300 sm:h-72 sm:w-72 md:h-96 md:w-96 ${speaking ? "scale-105" : ""}`}>
             <canvas ref={canvasRef} className="absolute inset-0 h-full w-full" />
             <img src="/gen/host-avatar.png" alt="" aria-hidden="true" className="relative h-full w-full object-contain mix-blend-screen" />
           </div>
@@ -282,7 +282,7 @@ export default function AIHost() {
       {phase === "active" && (
         <div className="fixed bottom-5 right-5 z-[90] flex items-end gap-3">
           {speaking && visibleCaption && (
-            <div className="mb-2 max-w-xs rounded-2xl rounded-br-sm border border-[var(--color-border)] bg-[var(--color-panel)]/95 px-4 py-3 text-left text-sm leading-snug text-[var(--color-fg)] shadow-xl backdrop-blur">
+            <div className="mb-2 max-w-[58vw] rounded-2xl rounded-br-sm border border-[var(--color-border)] bg-[var(--color-panel)]/95 px-4 py-3 text-left text-sm leading-snug text-[var(--color-fg)] shadow-xl backdrop-blur sm:max-w-xs">
               {visibleCaption}
               <span className="ml-0.5 inline-block h-3 w-1.5 animate-pulse bg-[var(--color-accent)] align-middle" />
             </div>
