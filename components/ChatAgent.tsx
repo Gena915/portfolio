@@ -54,7 +54,7 @@ export default function ChatAgent() {
       >
         <span className="relative flex h-9 w-9 items-center justify-center">
           <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[var(--color-accent)] opacity-40" />
-          <img src="/gen/host-avatar.png" alt="" aria-hidden="true" className="relative h-9 w-9 rounded-full object-cover mix-blend-screen" />
+          <img src="/gen/host-avatar.webp" alt="" aria-hidden="true" className="relative h-9 w-9 rounded-full object-cover mix-blend-screen" />
         </span>
         {open ? "Cerrar chat" : "Preguntale a la IA"}
       </button>

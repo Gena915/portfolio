@@ -228,7 +228,7 @@ export default function AIHost() {
           <div className="pointer-events-none absolute inset-0 bg-aurora opacity-80" />
           <div className="relative h-44 w-44 shrink-0 sm:h-64 sm:w-64 md:h-80 md:w-80">
             <canvas ref={canvasRef} className="absolute inset-0 h-full w-full" />
-            <img src="/gen/host-avatar.png" alt="" aria-hidden="true" className="relative h-full w-full object-contain mix-blend-screen" />
+            <img src="/gen/host-avatar.webp" alt="" aria-hidden="true" className="relative h-full w-full object-contain mix-blend-screen" />
           </div>
           <p className="relative -mt-4 font-mono text-xs uppercase tracking-[0.3em] text-[var(--color-accent)]">
             Agente anfitrión · IA
@@ -263,7 +263,7 @@ export default function AIHost() {
           <div className="pointer-events-none absolute inset-0 bg-aurora opacity-80" />
           <div className={`relative h-52 w-52 shrink-0 transition-transform duration-300 sm:h-72 sm:w-72 md:h-96 md:w-96 ${speaking ? "scale-105" : ""}`}>
             <canvas ref={canvasRef} className="absolute inset-0 h-full w-full" />
-            <img src="/gen/host-avatar.png" alt="" aria-hidden="true" className="relative h-full w-full object-contain mix-blend-screen" />
+            <img src="/gen/host-avatar.webp" alt="" aria-hidden="true" className="relative h-full w-full object-contain mix-blend-screen" />
           </div>
           <p className="relative mx-auto -mt-2 min-h-[5rem] max-w-2xl text-pretty text-lg leading-relaxed text-[var(--color-fg)] md:text-xl">
             {visibleCaption}
@@ -290,7 +290,7 @@ export default function AIHost() {
           <div className="flex flex-col items-center gap-2">
             <div className={`relative h-20 w-20 transition-transform ${speaking ? "scale-110" : ""}`}>
               <canvas ref={canvasRef} className="absolute inset-0 h-full w-full" />
-              <img src="/gen/host-avatar.png" alt="" aria-hidden="true" className="relative h-full w-full object-contain mix-blend-screen" />
+              <img src="/gen/host-avatar.webp" alt="" aria-hidden="true" className="relative h-full w-full object-contain mix-blend-screen" />
             </div>
             <div className="flex gap-1.5">
               <button

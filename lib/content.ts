@@ -61,7 +61,7 @@ export const projects: Project[] = [
   {
     title: "Visión por computadora en planta",
     sector: "Industrial",
-    image: "/gen/proj-vision.png",
+    image: "/gen/proj-vision.webp",
     summary:
       "Automatización del control de calidad en una línea productiva: el sistema detecta piezas y mide desviaciones al instante, sin intervención humana.",
     highlights: [
@@ -74,7 +74,7 @@ export const projects: Project[] = [
   {
     title: "Equipo de IA para rastreo satelital",
     sector: "Rastreo GPS · Flotas",
-    image: "/gen/proj-rastreo.png",
+    image: "/gen/proj-rastreo.webp",
     summary:
       "Un equipo de agentes que automatiza la operación comercial completa de una empresa de rastreo: atención, ventas y posventa por WhatsApp.",
     highlights: [
@@ -87,7 +87,7 @@ export const projects: Project[] = [
   {
     title: "Automatización de cobranzas",
     sector: "Finanzas · Cobranzas",
-    image: "/gen/proj-cobranzas.png",
+    image: "/gen/proj-cobranzas.webp",
     summary:
       "Agente que gestiona la cobranza de deuda por WhatsApp: informa el estado de cuenta, recibe comprobantes y registra los pagos contra el sistema de la empresa.",
     highlights: [
@@ -100,7 +100,7 @@ export const projects: Project[] = [
   {
     title: "Asistente inmobiliario",
     sector: "Inmobiliario",
-    image: "/gen/proj-inmobiliario.png",
+    image: "/gen/proj-inmobiliario.webp",
     summary:
       "Primer contacto automatizado para una comercializadora con +250 profesionales: califica leads y agenda reuniones con el comercial indicado.",
     highlights: [
@@ -113,7 +113,7 @@ export const projects: Project[] = [
   {
     title: "Agente de correo corporativo",
     sector: "Comunicación corporativa",
-    image: "/gen/proj-email.png",
+    image: "/gen/proj-email.webp",
     summary:
       "Automatiza la bandeja de entrada de un directivo: clasifica el correo, lo resume y deja borradores de respuesta listos para revisar (nunca envía solo).",
     highlights: [
@@ -126,7 +126,7 @@ export const projects: Project[] = [
   {
     title: "Mesa de ayuda y soporte técnico",
     sector: "Soporte · Servicios TI",
-    image: "/gen/proj-soporte.png",
+    image: "/gen/proj-soporte.webp",
     summary:
       "Equipo de agentes que automatiza la atención de soporte: recibe al cliente, crea los tickets y hace el diagnóstico técnico profundo de cada caso.",
     highlights: [
@@ -139,7 +139,7 @@ export const projects: Project[] = [
   {
     title: "Administración y tesorería",
     sector: "Administración",
-    image: "/gen/proj-administracion.png",
+    image: "/gen/proj-administracion.webp",
     summary:
       "Agente que automatiza tareas administrativas: lee facturas, concilia movimientos bancarios y gestiona órdenes de compra y suscripciones.",
     highlights: [
@@ -152,7 +152,7 @@ export const projects: Project[] = [
   {
     title: "Agente de voz e investigación",
     sector: "Voz · Research",
-    image: "/gen/proj-voz.png",
+    image: "/gen/proj-voz.webp",
     summary:
       "Asistente que habla: recibe un pedido de investigación, busca en la web en tiempo real y responde por voz, con una locución natural.",
     highlights: [
@@ -165,7 +165,7 @@ export const projects: Project[] = [
   {
     title: "Fábrica de agentes de IA",
     sector: "Ingeniería de IA",
-    image: "/gen/proj-fabrica.png",
+    image: "/gen/proj-fabrica.webp",
     summary:
       "Un sistema que construye otros agentes: toma una necesidad de negocio y la convierte en un agente listo para producción, con control de calidad incorporado.",
     highlights: [
@@ -178,7 +178,7 @@ export const projects: Project[] = [
   {
     title: "Cerebro personal agéntico",
     sector: "IA · Productividad",
-    image: "/gen/proj-sanai.png",
+    image: "/gen/proj-sanai.webp",
     summary:
       "Un sistema multi-agente que centraliza toda la información de trabajo y la mantiene viva: un asistente que conoce todo y coordina agentes especializados.",
     highlights: [

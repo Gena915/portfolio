@@ -24,7 +24,7 @@ export default function Hero() {
       {/* Fondo cinematográfico — núcleo de IA generado con Higgsfield (Soul Cinematic) */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <img
-          src="/gen/hero-bg.png"
+          src="/gen/hero-bg.webp"
           alt=""
           aria-hidden="true"
           className="kenburns absolute inset-0 h-full w-full object-cover opacity-70 [object-position:75%_center]"
