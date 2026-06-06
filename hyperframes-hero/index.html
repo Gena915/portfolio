@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body {
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #05060a;
+        font-family: "JetBrains Mono", ui-monospace, "Segoe UI", monospace;
+      }
+      .scene { position: absolute; inset: 0; width: 1920px; height: 1080px; overflow: hidden; }
+
+      .glow { position: absolute; border-radius: 50%; filter: blur(150px); pointer-events: none; }
+      .glow-a { width: 900px; height: 900px; background: #38a9ff; opacity: 0.16; top: -220px; right: -120px; }
+      .glow-b { width: 760px; height: 760px; background: #22d3ee; opacity: 0.14; bottom: -220px; left: 160px; }
+      .glow-c { width: 520px; height: 520px; background: #38a9ff; opacity: 0.10; top: 38%; left: 42%; }
+
+      .dotgrid {
+        position: absolute; inset: 0;
+        background-image: radial-gradient(circle, rgba(255,255,255,0.05) 1.3px, transparent 1.3px);
+        background-size: 40px 40px;
+        opacity: 0.55;
+        mask-image: radial-gradient(closest-side at 60% 50%, #000 60%, transparent 100%);
+      }
+
+      svg { position: absolute; inset: 0; }
+      .label {
+        font-size: 19px; font-weight: 500; letter-spacing: 0.16em;
+        text-transform: uppercase; fill: #9aa3b8;
+      }
+      .label-core { font-size: 22px; fill: #d4e8ff; letter-spacing: 0.2em; }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="8"
+      data-width="1920"
+      data-height="1080"
+    >
+      <div class="scene clip" id="hero-network" data-start="0" data-duration="8" data-track-index="1" data-layout-ignore>
+        <div data-layout-ignore class="glow glow-a"></div>
+        <div data-layout-ignore class="glow glow-b"></div>
+        <div data-layout-ignore class="glow glow-c"></div>
+        <div data-layout-ignore class="dotgrid"></div>
+
+        <svg width="1920" height="1080" viewBox="0 0 1920 1080" data-layout-ignore>
+          <defs>
+            <linearGradient id="edge" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#38a9ff" stop-opacity="0.85" />
+              <stop offset="1" stop-color="#22d3ee" stop-opacity="0.35" />
+            </linearGradient>
+            <radialGradient id="nodeFill">
+              <stop offset="0" stop-color="#0c1722" />
+              <stop offset="1" stop-color="#0a1018" />
+            </radialGradient>
+            <radialGradient id="coreFill">
+              <stop offset="0" stop-color="#38a9ff" stop-opacity="0.55" />
+              <stop offset="0.55" stop-color="#0e2030" stop-opacity="0.9" />
+              <stop offset="1" stop-color="#0a1018" stop-opacity="1" />
+            </radialGradient>
+            <filter id="soft" x="-60%" y="-60%" width="220%" height="220%">
+              <feGaussianBlur stdDeviation="5" result="b" />
+              <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
+            </filter>
+          </defs>
+
+          <!-- capas dibujadas por el builder -->
+          <g id="edges"></g>
+          <g id="pulses"></g>
+          <g id="rings"></g>
+          <g id="nodes"></g>
+          <g id="packets"></g>
+          <g id="core"></g>
+        </svg>
+      </div>
+    </div>
+
+    <script>
+      // ---- Construcción determinista del grafo (corre en parse, antes del timeline) ----
+      const CX = 960, CY = 540, R = 330;
+      const NS = "http://www.w3.org/2000/svg";
+      const roles = ["Comercial", "Cobranzas", "Soporte", "Visión", "Research", "Deploy"];
+      const nodes = roles.map((label, i) => {
+        const a = -Math.PI / 2 + (i * Math.PI) / 3; // 6 nodos cada 60°, arrancando arriba
+        return { x: CX + R * Math.cos(a), y: CY + R * Math.sin(a), a, label };
+      });
+
+      const $ = (id) => document.getElementById(id);
+      const mk = (tag, attrs) => {
+        const el = document.createElementNS(NS, tag);
+        for (const k in attrs) el.setAttribute(k, attrs[k]);
+        return el;
+      };
+
+      // anillos concéntricos rotando
+      $("rings").appendChild(mk("circle", { class: "ring-outer", cx: CX, cy: CY, r: R + 70, fill: "none", stroke: "#1d2230", "stroke-width": 1, "stroke-dasharray": "2 16" }));
+      $("rings").appendChild(mk("circle", { class: "ring-inner", cx: CX, cy: CY, r: R - 60, fill: "none", stroke: "#1d2230", "stroke-width": 1, "stroke-dasharray": "2 22" }));
+
+      // pulsos emanando del centro
+      for (let k = 0; k < 3; k++) {
+        $("pulses").appendChild(mk("circle", { class: "pulse p" + k, cx: CX, cy: CY, r: 70, fill: "none", stroke: "#38a9ff", "stroke-width": 1.5, opacity: 0 }));
+      }
+
+      nodes.forEach((n, i) => {
+        // arista centro → nodo
+        $("edges").appendChild(mk("line", { class: "edge e" + i, x1: CX, y1: CY, x2: n.x, y2: n.y, stroke: "url(#edge)", "stroke-width": 1.5, opacity: 0.5 }));
+        // nodo
+        const g = mk("g", { class: "node n" + i });
+        g.appendChild(mk("circle", { cx: n.x, cy: n.y, r: 34, fill: "url(#nodeFill)", stroke: "#38a9ff", "stroke-width": 1.5, "stroke-opacity": 0.7, filter: "url(#soft)" }));
+        g.appendChild(mk("circle", { cx: n.x, cy: n.y, r: 5, fill: "#38a9ff" }));
+        $("nodes").appendChild(g);
+        // etiqueta del agente (afuera del nodo)
+        const out = 56, lx = n.x + out * Math.cos(n.a), ly = n.y + out * Math.sin(n.a);
+        const anchor = Math.cos(n.a) > 0.2 ? "start" : Math.cos(n.a) < -0.2 ? "end" : "middle";
+        const t = mk("text", { class: "label node-label nl" + i, x: lx, y: ly + 6, "text-anchor": anchor });
+        t.textContent = n.label;
+        $("nodes").appendChild(t);
+        // paquete de datos sobre la arista
+        const reverse = i % 2 === 1;
+        const px = reverse ? n.x : CX, py = reverse ? n.y : CY;
+        $("packets").appendChild(mk("circle", { class: "packet pk" + i, "data-rev": reverse ? 1 : 0, cx: px, cy: py, r: 4.5, fill: "#9fd4ff" }));
+      });
+
+      // núcleo orquestador
+      $("core").appendChild(mk("circle", { class: "core-halo", cx: CX, cy: CY, r: 92, fill: "url(#coreFill)" }));
+      $("core").appendChild(mk("circle", { class: "core-ring", cx: CX, cy: CY, r: 60, fill: "#0a1018", stroke: "#38a9ff", "stroke-width": 2, filter: "url(#soft)" }));
+      $("core").appendChild(mk("circle", { cx: CX, cy: CY, r: 8, fill: "#9fd4ff" }));
+      const ct = mk("text", { class: "label-core", x: CX, y: CY + 122, "text-anchor": "middle" });
+      ct.textContent = "ORQUESTADOR";
+      $("core").appendChild(ct);
+    </script>
+
+    <script>
+      // ---- Timeline (todo el movimiento; diseñado para cerrar en el frame 0) ----
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+      const D = 8;
+
+      // rotación de anillos: 360° exactos → loop perfecto
+      tl.to(".ring-outer", { rotation: 360, duration: D, ease: "none", svgOrigin: "960 540" }, 0);
+      tl.to(".ring-inner", { rotation: -360, duration: D, ease: "none", svgOrigin: "960 540" }, 0);
+
+      // glows respirando (2 medios ciclos → vuelve al inicio)
+      tl.to(".glow-a", { scale: 1.16, duration: D / 2, ease: "sine.inOut", yoyo: true, repeat: 1, transformOrigin: "center" }, 0);
+      tl.to(".glow-b", { scale: 1.2, duration: D / 2, ease: "sine.inOut", yoyo: true, repeat: 1, transformOrigin: "center" }, 0);
+      tl.to(".glow-c", { opacity: 0.16, duration: D / 2, ease: "sine.inOut", yoyo: true, repeat: 1 }, 0);
+
+      // núcleo latiendo (4 medios ciclos)
+      tl.to(".core-halo", { scale: 1.12, duration: D / 4, ease: "sine.inOut", yoyo: true, repeat: 3, svgOrigin: "960 540" }, 0);
+      tl.to(".core-ring", { scale: 1.06, duration: D / 4, ease: "sine.inOut", yoyo: true, repeat: 3, svgOrigin: "960 540" }, 0);
+
+      // aristas titilando suave (intensidad de la red)
+      tl.to(".edge", { opacity: 0.85, duration: D / 4, ease: "sine.inOut", yoyo: true, repeat: 3, stagger: { each: 0.0, from: "random" } }, 0);
+      tl.to(".node-label", { opacity: 0.45, duration: D / 2, ease: "sine.inOut", yoyo: true, repeat: 1 }, 0);
+
+      // pulsos emanando: opacidad 0→pico→0 (extremos invisibles = sin salto), 3 ciclos escalonados
+      document.querySelectorAll(".pulse").forEach((el, k) => {
+        const cycle = D / 3;
+        tl.fromTo(
+          el,
+          { attr: { r: 62 }, opacity: 0, svgOrigin: "960 540" },
+          {
+            attr: { r: 470 },
+            ease: "none",
+            duration: cycle,
+            repeat: 2,
+            keyframes: { opacity: [0, 0.5, 0] },
+          },
+          k * cycle, // escalonados → flujo continuo, y todos cierran en t=8
+        );
+      });
+
+      // paquetes de datos viajando por las aristas (ida y vuelta, 4 medios ciclos → vuelven al inicio)
+      nodes.forEach((n, i) => {
+        const el = document.querySelector(".pk" + i);
+        const rev = el.getAttribute("data-rev") === "1";
+        const to = rev ? { x: CX, y: CY } : { x: n.x, y: n.y };
+        tl.to(el, { attr: { cx: to.x, cy: to.y }, duration: D / 4, ease: "power1.inOut", yoyo: true, repeat: 3 }, 0);
+        tl.to(el, { opacity: 0.2, duration: D / 8, ease: "sine.inOut", yoyo: true, repeat: 7 }, 0);
+      });
+
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>
